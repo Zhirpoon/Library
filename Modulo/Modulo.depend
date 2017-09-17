@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1505682735 source:c:\users\rosen\library\modulo\main.cpp
+	<iostream>
+	<stdio.h>
+
