@@ -51,6 +51,8 @@ public class ClientHandler implements Runnable {
                 switch(msg.msgType) {
                     case START:
                         controller.startGame();
+                        sendMsg("Type <guess> followed by a letter to guess a letter.");
+                        sendMsg("Type <solve> followed by a word to guess the word.");
                         sendMsg(controller.getGameState().toString());
                         break;
                     case SOLVE:
