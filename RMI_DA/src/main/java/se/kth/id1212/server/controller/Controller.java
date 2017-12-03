@@ -154,6 +154,7 @@ public class Controller extends UnicastRemoteObject implements FileServer {
                 transferService.deleteFile();
                 deleteFileProperties(fileName);
                 fileToServer(fileName, size, clientToken);
+                deleteFileProperties(fileName);
                 file.setFileSize(size);
                 createFileProperties(file);
             } else {
