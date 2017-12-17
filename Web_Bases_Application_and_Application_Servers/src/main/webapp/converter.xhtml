@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Currency converter</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <h3>Convert currencies</h3>
+            <p>
+                <h:outputLabel for="inputAmount" value="Amount to convert: "/>
+                <h:inputText id="inputAmount" value="#{conversionManager.amountToConvert}" required="true"/>
+            </p>
+            <p>
+                From
+                <h:selectOneMenu value="#{conversionManager.fromCurrName}">
+                    <c:forEach items="#{conversionManager.currList}" var="currency">
+                        <f:selectItem itemValue="#{currency.currencyname}" itemLabel="#{currency.currencyname}"/>
+                    </c:forEach>
+                </h:selectOneMenu>
+            </p>
+            <p>
+                To
+                <h:selectOneMenu value="#{conversionManager.toCurrName}">
+                    <c:forEach items="#{conversionManager.currList}" var="currency">
+                        <f:selectItem itemValue="#{currency.currencyname}" itemLabel="#{currency.currencyname}"/>
+                    </c:forEach>
+                </h:selectOneMenu>
+            </p>
+            <p>
+                <h:commandButton value="Convert" action="#{conversionManager.convert()}"/>
+            </p>
+            <p>
+                <h:outputLabel for="convertedAmount" value="Converted amount is: "/>
+                <h:outputText id="convertedAmount" value="#{conversionManager.convertedAmount}"/>
+            </p>
+        </h:form>
+    </h:body>
+</html>
+
