@@ -7,6 +7,7 @@ package se.kth.id1212.websocketschatrooms.client.net;
 
 import static java.lang.String.format;
 import java.text.SimpleDateFormat;
+import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
@@ -20,15 +21,24 @@ import se.kth.id1212.websocketschatrooms.common.MessageEncoder;
  */
 @javax.websocket.ClientEndpoint(encoders = MessageEncoder.class, decoders = MessageDecoder.class)
 public class ClientEndpoint {
-    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
-
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
+    private final OutputHandler outputHandler;
+    
+    public ClientEndpoint(OutputHandler outputHandler) {
+        this.outputHandler = outputHandler;
+    }
     @OnOpen
     public void onOpen(Session session) {
-        System.out.println(format("Connection established. session id: %s", session.getId()));
+        outputHandler.handleMsg(format("Connection established. session id: %s", session.getId()));
     }
 
     @OnMessage
     public void onMessage(Message message) {
-        System.out.println(format("[%s:%s] %s", simpleDateFormat.format(message.getReceived()), message.getSender(), message.getContent()));
+        outputHandler.handleMsg(format("[%s:%s] %s", simpleDateFormat.format(message.getReceived()), message.getSender(), message.getContent()));
+    }
+    
+    @OnError
+    public void onError(Throwable t) {
+        
     }
 }

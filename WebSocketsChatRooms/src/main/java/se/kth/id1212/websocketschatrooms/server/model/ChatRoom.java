@@ -10,6 +10,7 @@ package se.kth.id1212.websocketschatrooms.server.model;
  */
 import static java.lang.String.format;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
@@ -37,14 +38,13 @@ public class ChatRoom {
 
     @OnMessage
     public void onMessage(Message message, Session session) throws IOException, EncodeException {
+        if ("#quit".equalsIgnoreCase(message.getContent()) || "#leave".equalsIgnoreCase(message.getContent())) {
+            session.close();
+        } else if("#list_rooms".equalsIgnoreCase(message.getContent())) {
+            sendRoomsList(session);
+            return;
+        }
         String room = (String) session.getUserProperties().get("room");
-        if ("quit".equalsIgnoreCase(message.getContent())) {
-            session.close();
-        }
-        if("leave".equalsIgnoreCase(message.getContent())) {
-            session.close();
-        }
-
         System.out.println(format("[%s:%s] %s", session.getId(), message.getReceived(), message.getContent()));
         try {
             for (Session peer : session.getOpenSessions()) {
@@ -60,14 +60,35 @@ public class ChatRoom {
     @OnClose
     public void onClose(Session session) throws IOException, EncodeException {
         System.out.println(format("%s left the chat room.", session.getId()));
-        peers.remove(session);
-        //notify peers about leaving the chat room
-        for (Session peer : peers) {
-            Message chatMessage = new Message();
-            chatMessage.setSender("Server");
-            chatMessage.setContent(format("%s left the chat room.", (String) session.getUserProperties().get("user")));
-            chatMessage.setReceived(new Date());
-            peer.getBasicRemote().sendObject(chatMessage);
+        String room = (String) session.getUserProperties().get("room");
+        //notify peers about leaving the chat room    
+        for (Session peer : session.getOpenSessions()) {
+            if (peer.isOpen() && room.equals(peer.getUserProperties().get("room"))) {
+                Message chatMessage = new Message();
+                chatMessage.setSender("Server");
+                chatMessage.setContent(format("%s left the chat room.", (String) session.getUserProperties().get("user")));
+                chatMessage.setReceived(new Date());
+                peer.getBasicRemote().sendObject(chatMessage);
+            }
+        }
+        session.close();
+            
+    }
+    
+    private void sendRoomsList(Session session) throws IOException, EncodeException {
+        ArrayList<String> rooms = new ArrayList<>();
+        for (Session peer : session.getOpenSessions()) {
+            String room = (String) peer.getUserProperties().get("room");
+            if(!rooms.contains(room)) {
+                rooms.add(room);
+            }
+        }
+        Message message =  new Message();
+        message.setSender("Server");
+        message.setReceived(new Date());
+        for(String room : rooms) {    
+            message.setContent(room);
+            session.getBasicRemote().sendObject(message);
         }
     }
 

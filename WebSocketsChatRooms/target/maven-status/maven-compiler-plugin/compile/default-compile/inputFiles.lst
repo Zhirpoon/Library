@@ -1,8 +1,8 @@
-C:\Users\Rosen\Documents\NetBeansProjects\WebSocketsChatRooms\src\main\java\se\kth\id1212\websocketschatrooms\client\view\Startup.java
-C:\Users\Rosen\Documents\NetBeansProjects\WebSocketsChatRooms\src\main\java\se\kth\id1212\websocketschatrooms\server\model\ChatRoom.java
-C:\Users\Rosen\Documents\NetBeansProjects\WebSocketsChatRooms\src\main\java\se\kth\id1212\websocketschatrooms\common\Message.java
-C:\Users\Rosen\Documents\NetBeansProjects\WebSocketsChatRooms\src\main\java\se\kth\id1212\websocketschatrooms\client\net\ClientEndpoint.java
-C:\Users\Rosen\Documents\NetBeansProjects\WebSocketsChatRooms\src\main\java\se\kth\id1212\websocketschatrooms\common\MessageDecoder.java
-C:\Users\Rosen\Documents\NetBeansProjects\WebSocketsChatRooms\src\main\java\se\kth\id1212\websocketschatrooms\util\JsonUtil.java
-C:\Users\Rosen\Documents\NetBeansProjects\WebSocketsChatRooms\src\main\java\se\kth\id1212\websocketschatrooms\server\net\ChatServerRoomSelector.java
-C:\Users\Rosen\Documents\NetBeansProjects\WebSocketsChatRooms\src\main\java\se\kth\id1212\websocketschatrooms\common\MessageEncoder.java
+/home/zhirpoon/Downloads/git/Library/WebSocketsChatRooms/src/main/java/se/kth/id1212/websocketschatrooms/server/model/ChatRoom.java
+/home/zhirpoon/Downloads/git/Library/WebSocketsChatRooms/src/main/java/se/kth/id1212/websocketschatrooms/server/net/ChatServerRoomSelector.java
+/home/zhirpoon/Downloads/git/Library/WebSocketsChatRooms/src/main/java/se/kth/id1212/websocketschatrooms/util/JsonUtil.java
+/home/zhirpoon/Downloads/git/Library/WebSocketsChatRooms/src/main/java/se/kth/id1212/websocketschatrooms/common/MessageDecoder.java
+/home/zhirpoon/Downloads/git/Library/WebSocketsChatRooms/src/main/java/se/kth/id1212/websocketschatrooms/common/Message.java
+/home/zhirpoon/Downloads/git/Library/WebSocketsChatRooms/src/main/java/se/kth/id1212/websocketschatrooms/client/net/ClientEndpoint.java
+/home/zhirpoon/Downloads/git/Library/WebSocketsChatRooms/src/main/java/se/kth/id1212/websocketschatrooms/common/MessageEncoder.java
+/home/zhirpoon/Downloads/git/Library/WebSocketsChatRooms/src/main/java/se/kth/id1212/websocketschatrooms/client/view/Startup.java

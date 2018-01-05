@@ -1,8 +1,0 @@
-se\kth\id1212\websocketschatrooms\server\model\ChatRoom.class
-se\kth\id1212\websocketschatrooms\common\Message.class
-se\kth\id1212\websocketschatrooms\common\MessageDecoder.class
-se\kth\id1212\websocketschatrooms\util\JsonUtil.class
-se\kth\id1212\websocketschatrooms\client\net\ClientEndpoint.class
-se\kth\id1212\websocketschatrooms\client\view\Startup.class
-se\kth\id1212\websocketschatrooms\common\MessageEncoder.class
-se\kth\id1212\websocketschatrooms\server\net\ChatServerRoomSelector.class
