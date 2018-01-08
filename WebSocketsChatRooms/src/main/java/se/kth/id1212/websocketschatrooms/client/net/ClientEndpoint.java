@@ -39,6 +39,7 @@ public class ClientEndpoint {
     
     @OnError
     public void onError(Throwable t) {
-        
+        outputHandler.handleMsg("Error encountered.");
+        outputHandler.handleMsg(t.toString());
     }
 }

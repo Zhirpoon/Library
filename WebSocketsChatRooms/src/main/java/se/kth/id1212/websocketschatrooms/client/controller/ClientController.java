@@ -15,11 +15,11 @@ public class ClientController {
         serverConnection = new ServerConnection(outputHandler);
     }
     
-    public void connectToServer(String username, String room) {
-        serverConnection.connect(username, room);
+    public boolean connectToServer(String username, String room) {
+        return serverConnection.connect(username.trim(), room.trim());
     }
     
-    public void sendMessageToServer(String message) throws IOException, Exception {
+    public void sendMessageToServer(String message) throws IOException {
         serverConnection.sendMessage(message);
     }
     

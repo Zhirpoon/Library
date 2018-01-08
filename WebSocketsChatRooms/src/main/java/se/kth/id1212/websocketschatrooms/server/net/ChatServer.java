@@ -11,9 +11,8 @@ package se.kth.id1212.websocketschatrooms.server.net;
  */
 import java.util.Scanner;
 import javax.websocket.DeploymentException;
-import se.kth.id1212.websocketschatrooms.server.model.ChatRoom;
 
-public class ChatServerRoomSelector {
+public class ChatServer {
 
     public static void main(String[] args) {
 
@@ -21,7 +20,7 @@ public class ChatServerRoomSelector {
 
         try {
             server.start();
-            System.out.println("Press any key to stop the servers..");
+            System.out.println("Press any key to stop the server..");
             new Scanner(System.in).nextLine();
         } catch (DeploymentException e) {
             throw new RuntimeException(e);
