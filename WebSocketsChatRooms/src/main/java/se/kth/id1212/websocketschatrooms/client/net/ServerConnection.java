@@ -38,7 +38,8 @@ public class ServerConnection {
             successfullConnection = true;
             return successfullConnection;
         } catch (DeploymentException | URISyntaxException exception) {
-            outputHandler.handleMsg("Could not connect to server!\n" + exception.getMessage());
+            outputHandler.handleMsg("Could not connect to server.");
+            outputHandler.handleMsg(exception.toString());
             successfullConnection = false;
             return successfullConnection;
         }

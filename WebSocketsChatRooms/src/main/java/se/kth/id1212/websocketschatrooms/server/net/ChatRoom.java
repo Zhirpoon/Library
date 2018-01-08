@@ -12,6 +12,8 @@ import static java.lang.String.format;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.websocket.EncodeException;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -32,19 +34,38 @@ public class ChatRoom {
             @PathParam("room") final String room) {
         System.out.println(format("%s joined the chat room: " + room, session.getId()));
         session.getUserProperties().put("room", room);
-        Message joinMessage = new Message();
-        joinMessage.setSender("Server");
-        joinMessage.setContent(format("A user has joined the chat room: " + room));
-        joinMessage.setReceived(new Date());
+        Message joinMessage = createServerMessage("A user has joined the chat room: " + room);
+        int count = 0;
         for (Session peer : session.getOpenSessions()) {
             if(peer.isOpen() && peer.getUserProperties().get("room").equals(room)) {
                 try {
+                    count++;
                     peer.getBasicRemote().sendObject(joinMessage);
                 } catch (IOException | EncodeException ex) {
-                    System.err.println("Couldn't send out join message to users in the room! \n" + ex.getMessage());
+                    System.err.println("Couldn't send out join message to users in the room.");
+                    System.err.println(ex.toString());
                 }
             }
         }
+        sendAmountOfClientsConnectedToChatRoom(count, session, room);
+    }
+    
+    private Message createServerMessage(String text) {
+        Message serverMessage = new Message();
+        serverMessage.setSender("Server");
+        serverMessage.setContent(text);
+        serverMessage.setReceived(new Date());
+        return serverMessage;
+    }
+    
+    private void sendAmountOfClientsConnectedToChatRoom(int amountOfClients, Session session, String room) {
+        Message countMessage = createServerMessage("There are " + amountOfClients + " connected to the room: " + room);
+        try {
+            session.getBasicRemote().sendObject(countMessage);
+        } catch (IOException | EncodeException ex) {
+            System.err.println("Couldn't send countMessage to user.");
+            System.err.println(ex.toString());
+        } 
     }
 
     @OnMessage
@@ -85,10 +106,7 @@ public class ChatRoom {
         String room = (String) session.getUserProperties().get("room"); 
         for (Session peer : session.getOpenSessions()) {
             if (peer.isOpen() && room.equals(peer.getUserProperties().get("room"))) {
-                Message chatMessage = new Message();
-                chatMessage.setSender("Server");
-                chatMessage.setContent(format("%s left the chat room.", (String) session.getUserProperties().get("user")));
-                chatMessage.setReceived(new Date());
+                Message chatMessage = createServerMessage(format("%s left the chat room.", (String) session.getUserProperties().get("user")));
                 peer.getBasicRemote().sendObject(chatMessage);
             }
         }
@@ -100,10 +118,10 @@ public class ChatRoom {
     public void onError(Session session, Throwable t) {
         try {
             session.close();
-            System.err.println("User has been removed due to faulty connection");
+            System.err.println("User has been removed due to faulty connection.");
             System.err.println(t.toString());
         } catch (IOException ex) {
-            System.err.println("Something went wrong when removing user");
+            System.err.println("Something went wrong when removing user.");
             System.err.println(ex.toString());
         }
     }
@@ -116,9 +134,7 @@ public class ChatRoom {
                 rooms.add(room);
             }
         }
-        Message message =  new Message();
-        message.setSender("Server");
-        message.setReceived(new Date());
+        Message message =  createServerMessage("");
         for(String room : rooms) {    
             message.setContent(room);
             session.getBasicRemote().sendObject(message);
@@ -128,5 +144,4 @@ public class ChatRoom {
     private boolean checkIfUsernameIsNull(Session session) {
         return session.getUserProperties().get("user") == null;
     }
-
 }

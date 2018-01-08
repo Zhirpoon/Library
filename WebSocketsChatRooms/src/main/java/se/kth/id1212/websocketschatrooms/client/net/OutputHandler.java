@@ -6,4 +6,5 @@ package se.kth.id1212.websocketschatrooms.client.net;
  */
 public interface OutputHandler {
     public void handleMsg(String msg);
+    public void stopClient();
 }

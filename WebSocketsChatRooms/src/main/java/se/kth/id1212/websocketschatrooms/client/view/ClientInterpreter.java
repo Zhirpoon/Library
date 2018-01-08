@@ -2,8 +2,6 @@ package se.kth.id1212.websocketschatrooms.client.view;
 
 import java.io.IOException;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import se.kth.id1212.websocketschatrooms.common.Constants;
 import se.kth.id1212.websocketschatrooms.client.controller.ClientController;
 import se.kth.id1212.websocketschatrooms.client.net.OutputHandler;
@@ -20,7 +18,7 @@ public class ClientInterpreter {
         String message;
         Scanner scanner = new Scanner(System.in);
         System.out.println(Constants.WELCOME_MESSAGE);
-        controller = new ClientController(new ConsoleOutput());
+        controller = new ClientController(new ClientOutputHandler());
         do {
             message = scanner.nextLine();
             switch(message.trim()) {
@@ -62,7 +60,7 @@ public class ClientInterpreter {
             System.out.println("Program has stopped successfully!");
         } catch (IOException ex) {
             System.err.println("Sending the quit-message to the server failed, shutting down anyway.");
-            System.err.println(ex.getMessage());
+            System.err.println(ex.toString());
         }
         
     }
@@ -74,7 +72,7 @@ public class ClientInterpreter {
                 System.out.println("You have now left the chat room.");
             } catch (Exception  ex) {
                 System.err.println("Leaving the chat room failed.");
-                System.err.println(ex.getMessage());
+                System.err.println(ex.toString());
                 checkIfConnectionIsClosed(ex);
             }
     }
@@ -92,7 +90,7 @@ public class ClientInterpreter {
             }
         } catch (Exception ex) {
             System.out.println("Something went wrong when connecting to the server");
-            System.err.println(ex.getMessage());
+            System.err.println(ex.toString());
             checkIfConnectionIsClosed(ex);
         }
         
@@ -106,7 +104,7 @@ public class ClientInterpreter {
             controller.sendMessageToServer(message);
         } catch (Exception ex) {
             System.err.println("Something went wrong when sending a message to the server!");
-            System.err.println(ex.getMessage());
+            System.err.println(ex.toString());
             checkIfConnectionIsClosed(ex);
         }
     }
@@ -124,10 +122,15 @@ public class ClientInterpreter {
         }
     }
     
-    private class ConsoleOutput implements OutputHandler {
+    private class ClientOutputHandler implements OutputHandler {
         @Override
         public void handleMsg(String msg) {
             System.out.println(msg);
+        }
+        
+        @Override
+        public void stopClient() {
+            serverIsActive = false;
         }
     }
 }
